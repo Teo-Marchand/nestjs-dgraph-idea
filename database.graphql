@@ -1,0 +1,93 @@
+type Organization {
+  id: ID!
+  name: String!
+  members: [Member] @hasInverse(field: "organization")
+  applications: [Application] @hasInverse(field: "organization")
+  createdAt: String!
+  updatedAt: String!
+}
+
+type Member {
+  id: ID!
+  name: String!
+  email: String!
+  role: Role!
+  organization: Organization!
+  sessions: [Session] @hasInverse(field: "member")
+  createdAt: String!
+  updatedAt: String!
+}
+
+type passwordless {
+  identifier: Member!
+  token: String!
+  expiresAt: String!
+}
+
+type Session {
+  id: ID!
+  member: Member!
+  token: String!
+  tokenType: String!
+  expiresAt: String!
+  createdAt: String!
+}
+
+enum Role {
+  OWNER
+  ADMIN
+  MEMBER
+}
+
+type Application {
+  id: ID!
+  organization: Organization!
+  name: String!
+  loggers: [Logger] @hasInverse(field: "application")
+  credentials: [ApplicationCredential] @hasInverse(field: "application")
+  createdAt: String!
+  updatedAt: String!
+}
+
+type ApplicationCredential {
+  id: ID!
+  application: Application!
+  accessKey: String!
+  secretKey: String!
+  createdAt: String!
+}
+
+type Logger {
+  id: ID!
+  name: String!
+  application: Application!
+  environment: LoggerEnvironment!
+  group: LoggerGroup!
+  fields: [LoggerField] @hasInverse(field: "logger")
+  loggerAt: String!
+  createdAt: String!
+}
+
+type LoggerEnvironment {
+  id: ID!
+  name: String!
+  logger: Logger!
+  createdAt: String!
+  updatedAt: String!
+}
+
+type LoggerGroup {
+  id: ID!
+  name: String!
+  logger: Logger!
+  createdAt: String!
+  updatedAt: String!
+}
+
+type LoggerField {
+  id: ID!
+  name: String!
+  logger: Logger!
+  createdAt: String!
+  updatedAt: String!
+}
